@@ -1,0 +1,15 @@
+[submodule "PathOfBuilding"]
+	path = PathOfBuilding
+	url = git@github.com:LocalIdentity/PathOfBuilding.git
+[submodule "Lua-cURLv3"]
+	path = Lua-cURLv3
+	url = git@github.com:Lua-cURL/Lua-cURLv3.git
+[submodule "pobfrontend"]
+	path = pobfrontend
+	url = git@github.com:ManWithBear/pobfrontend.git
+[submodule "qt5"]
+	path = qt5
+	url = git://code.qt.io/qt/qt5.git
+[submodule "luajit-2.0"]
+	path = luajit-2.0
+	url = http://luajit.org/git/luajit-2.0.git
