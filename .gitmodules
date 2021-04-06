@@ -6,4 +6,4 @@
 	url = git@github.com:jhofmeyr/PathOfBuilding.git
 [submodule "lua-curl"]
 	path = lua-curl
-	url = git@github.com:jhofmeyr/Lua-cURLv3.git
+	url = git@github.com:Lua-cURL/Lua-cURLv3.git
