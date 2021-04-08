@@ -1,48 +1,102 @@
-all: frontend pob
-	mv build/pobfrontend PathOfBuilding
+PKG_CONFIG_PATH := $(if $(QT_CONFIG_PATH),$(QT_CONFIG_PATH), $(PKG_CONFIG_PATH))
 
-pob: load_pob luacurl frontend
-	pushd PathOfBuilding; \
-	unzip 'tree*.zip'; \
-	unzip runtime-win32.zip lua/xml.lua lua/base64.lua lua/sha1.lua; \
-	mv lua/*.lua .; \
-	rmdir lua; \
-	cp ../lcurl.so .; \
-	popd
+all: pobfe
 
-frontend: load_frontend
+.PHONY: update
+update: git_init pobfe
+
+.PHONY: rebuild_all
+rebuild_all: clean_build clean_lcurl pobfe
+
+.PHONY: rebuild_fe
+rebuild_fe: clean_build pobfe
+
+#### Copy all the bits required for the FE to pobfe
+#### This will always execute due to clean_fe dependency
+
+pobfe: clean_fe lcurl.so build
+	mkdir pobfe; \
+		cp build/pobfrontend pobfe; \
+		cp pob/manifest.xml pobfe; \
+		cp -R pob/runtime pobfe; \
+		cp -R pob/runtime/lua/*.lua pobfe; \
+		cp -R pob/src/* pobfe; \
+		cp lcurl.so pobfe
+
+#### Actual Build stuff
+
+build:
 	meson -Dbuildtype=release pobfrontend build; \
-	pushd build; \
-	ninja; \
-	popd
+		pushd build; \
+		ninja; \
+		popd
 
-load_pob:
-	git clone git@github.com:ManWithBear/PathOfBuilding.git
+lcurl.so:
+	pushd lua-curl; \
+		LUA_IMPL=luajit make; \
+		mv lcurl.so ../lcurl.so; \
+		popd
 
-load_frontend:
-	git clone git@github.com:ManWithBear/pobfrontend.git
+#### Git things
 
-luacurl:
-	git clone git@github.com:Lua-cURL/Lua-cURLv3.git; \
-	pushd Lua-cURLv3; \
-	sed -i '' 's/\?= lua/\?= luajit/' Makefile; \
-	make; \
-	mv lcurl.so ../lcurl.so; \
-	popd
+.PHONY: git_init
+git_init:
+	git submodule update --init --recursive
 
+.PHONY: git_reset
+git_reset: git_init
+	git submodule foreach git reset --hard
+	git submodule foreach git clean -fd
+
+.PHONY: git_pull
+git_pull: git_reset
+	git submodule foreach git pull
+
+#### Install the things
+#### NOTE: This will remove any local changes in the submodules
+
+.PHONY: setup
+setup: tools git_pull pobfe
+
+#### Tools required for things to work
+
+.PHONY: tools
 tools: qt lua zlib meson
 
+.PHONY: qt
 qt:
 	brew install qt5
 
+.PHONY: lua
 lua:
 	brew install luajit
 
+.PHONY: zlib
 zlib:
 	brew install zlib
 
+.PHONY: meson
 meson:
 	brew install meson
 
-clean:
-	rm -rf PathOfBuilding pobfrontend Lua-cURLv3 lcurl.so build
+#### Clean-up Tasks
+
+.PHONY: clean_build
+clean_build: clean_fe
+	rm -rf build
+
+.PHONY: clean_lcurl
+clean_lcurl:
+	rm -rf lcurl.so
+
+.PHONY: clean_fe
+clean_fe:
+	rm -rf pobfe
+
+.PHONY: clean_all
+clean_all: clean_fe clean_lcurl clean_build
+
+#### Go nuclear
+
+.PHONY: nuke
+nuke: clean_all git_reset
