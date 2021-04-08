@@ -1,9 +1,6 @@
 [submodule "pobfrontend"]
 	path = pobfrontend
 	url = git@github.com:jhofmeyr/pobfrontend.git
-[submodule "pob"]
-	path = pob
-	url = git@github.com:jhofmeyr/PathOfBuilding.git
 [submodule "lua-curl"]
 	path = lua-curl
 	url = git@github.com:Lua-cURL/Lua-cURLv3.git
