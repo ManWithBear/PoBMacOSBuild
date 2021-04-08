@@ -3,7 +3,7 @@ PKG_CONFIG_PATH := $(if $(QT_CONFIG_PATH),$(QT_CONFIG_PATH), $(PKG_CONFIG_PATH))
 all: pobfe
 
 .PHONY: update
-update: git_init pobfe
+update: git_pull pobfe
 
 .PHONY: rebuild_all
 rebuild_all: clean_build clean_lcurl pobfe
