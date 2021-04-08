@@ -3,16 +3,16 @@ Makefile for building [Path of Building](https://github.com/PathOfBuildingCommun
 
 Make options:
 1. (optional) `make tools` - uses `brew` to install tools / dependecies for `pobfrontend`.
-2. (use this one if you need everything)`make setup` - installs tools, pulls submodules (note this removes any local changes), and builds everything.
-3. `make` - builds everything that isn't already built, removes `pobfe` if it exists and creates a new one
-4. `make update` - pulls git submodules and recreates `pobfe`.  Use this to update PoB without rebuilding everything.
-5. `make clean` - cleans up all build files
-6. `make nuke` - cleans up build files and resets git submodules
+2. `make` - builds everything that isn't already built, removes `pobfe` if it exists and creates a new one
+3. `make update` - pulls git submodules and recreates `pobfe`.  Use this to update PoB without rebuilding everything.
+4. `make clean` - cleans up all build files
+5. `make nuke` - cleans up build files and resets git submodules
 There are a few more but they should be fairly self explanatory.
 
 ## Getting Started
-1. `make setup` / `make` (depending on whether you need tools installed
-2. cd pobfe`
-3. `./pobfrontend` - to run Path of Building
+1. (optional)`make tools` if you need tools installed
+2. (optional) `export QT_CONFIG_PATH=path/for/qt/pkgconfig` - this may be required so QT can be found during the pobfrontend build
+3. `make`
+4. `cd pobfe && ./pobfrontend`
 
-Important: 3 step needs to be called from `pobfe` folder, because it looks for lua files in current folder.
+Important: `./pobfrontend` needs to be called from `pobfe` folder, because it looks for lua files in current folder.

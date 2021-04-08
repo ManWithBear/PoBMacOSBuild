@@ -52,12 +52,6 @@ git_reset: git_init
 git_pull: git_reset
 	git submodule foreach git pull
 
-#### Install the things
-#### NOTE: This will remove any local changes in the submodules
-
-.PHONY: setup
-setup: tools git_pull pobfe
-
 #### Tools required for things to work
 
 .PHONY: tools
