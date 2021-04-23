@@ -13,7 +13,7 @@ rebuild_fe: clean_build pobfe
 
 .PHONY: backup_data
 backup_data:
-	cp -r pobfe/Data .
+	cp -r pobfe/Builds .
 
 #### Copy all the bits required for the FE to pobfe
 #### This will always execute due to clean_fe dependency
