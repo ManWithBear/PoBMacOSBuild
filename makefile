@@ -25,6 +25,8 @@ pobfe: clean_fe lcurl.so build
 		cp pob/manifest.xml pobfe; \
 		cp -R pob/runtime pobfe; \
 		cp -R pob/runtime/lua/*.lua pobfe; \
+		cp -R pob/runtime/lua/sha1 pobfe/sha1; \
+		cp -R pob/runtime/lua/sha1/init.lua pobfe/sha1.lua; \
 		cp -R pob/src/* pobfe; \
 		cp lcurl.so pobfe
 
