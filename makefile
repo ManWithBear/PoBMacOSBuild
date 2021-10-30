@@ -3,7 +3,7 @@ PKG_CONFIG_PATH := $(if $(QT_CONFIG_PATH),$(QT_CONFIG_PATH), $(PKG_CONFIG_PATH))
 all: pobfe
 
 .PHONY: update
-update: git_pull pobfe
+update: git_pull backup_data pobfe
 
 .PHONY: rebuild_all
 rebuild_all: clean_build clean_lcurl pobfe
@@ -11,11 +11,16 @@ rebuild_all: clean_build clean_lcurl pobfe
 .PHONY: rebuild_fe
 rebuild_fe: clean_build pobfe
 
+.PHONY: backup_data
+backup_data:
+	cp -r pobfe/Builds .
+
 #### Copy all the bits required for the FE to pobfe
 #### This will always execute due to clean_fe dependency
 
 pobfe: clean_fe lcurl.so build
 	mkdir pobfe; \
+		cp -r ./Builds pobfe;\
 		cp build/pobfrontend pobfe; \
 		cp pob/manifest.xml pobfe; \
 		cp -R pob/runtime pobfe; \
@@ -46,6 +51,7 @@ git_init:
 .PHONY: git_reset
 git_reset: git_init
 	git submodule foreach git reset --hard
+	git submodule foreach git checkout master
 	git submodule foreach git clean -fd
 
 .PHONY: git_pull
