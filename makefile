@@ -25,6 +25,8 @@ pobfe: clean_fe lcurl.so build
 		cp pob/manifest.xml pobfe; \
 		cp -R pob/runtime pobfe; \
 		cp -R pob/runtime/lua/*.lua pobfe; \
+		cp -R pob/runtime/lua/sha1 pobfe/sha1; \
+		cp -R pob/runtime/lua/sha1/init.lua pobfe/sha1.lua; \
 		cp -R pob/src/* pobfe; \
 		cp lcurl.so pobfe
 
@@ -51,6 +53,7 @@ git_init:
 .PHONY: git_reset
 git_reset: git_init
 	git submodule foreach git reset --hard
+	git submodule foreach git checkout master
 	git submodule foreach git clean -fd
 
 .PHONY: git_pull
