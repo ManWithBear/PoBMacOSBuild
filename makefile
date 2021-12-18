@@ -71,7 +71,10 @@ qt:
 
 .PHONY: lua
 lua:
-	brew install luajit
+	# Note this is not currently working with the new M1 processors
+	# however I was able to manually compile luajit from source and mostly everything is working fine
+	# (some issues with fonts all being bold, and the scaling seems slightly off)
+	brew install luajit 
 
 .PHONY: zlib
 zlib:
